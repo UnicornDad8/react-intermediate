@@ -1,3 +1,6 @@
+import { ReactNode, useReducer } from "react";
+import TasksContext from "./tasksContext";
+
 export interface Task {
   id: number;
   title: string;
@@ -15,10 +18,6 @@ interface DeleteTask {
 
 export type TaskAction = AddTask | DeleteTask;
 
-interface Action {
-  type: "ADD" | "DELETE";
-}
-
 const tasksReducer = (tasks: Task[], action: TaskAction): Task[] => {
   switch (action.type) {
     case "ADD":
@@ -28,4 +27,18 @@ const tasksReducer = (tasks: Task[], action: TaskAction): Task[] => {
   }
 };
 
-export default tasksReducer;
+interface TasksProviderProps {
+  children: ReactNode;
+}
+
+const TasksProvider = ({ children }: TasksProviderProps) => {
+  const [tasks, dispatch] = useReducer(tasksReducer, []);
+
+  return (
+    <TasksContext.Provider value={{ tasks, dispatch }}>
+      {children}
+    </TasksContext.Provider>
+  );
+};
+
+export default TasksProvider;

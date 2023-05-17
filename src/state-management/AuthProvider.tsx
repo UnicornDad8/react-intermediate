@@ -7,10 +7,10 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, authDispatch] = useReducer(authReducer, "");
+  const [user, dispatch] = useReducer(authReducer, "");
 
   return (
-    <AuthContext.Provider value={{ user, dispatch: authDispatch }}>
+    <AuthContext.Provider value={{ user, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
